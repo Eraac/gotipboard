@@ -30,9 +30,12 @@ type DataPieChart struct {
 	PieData map[string]int `json:"pie_data"`
 }
 
+type Serie [][]interface{}
+type ItemSerie []interface{}
+
 type DataLineChart struct {
 	dataTile
-	SeriesList []map[string]int `json:"series_list,omitempty"`
+	SeriesList []Serie `json:"series_list,omitempty"`
 	/*
 		[
 			[["23.09", 8326], ["24.09", 260630], ["25.09", 240933], ["26.09", 229639], ["27.09", 190240], ["28.09", 125272], ["29.09", 3685]],
@@ -105,7 +108,13 @@ type DataAdvancedPlot struct {
 
 type DataNormChart struct {
 	dataTile
-	PlotData []map[int]float64 `json:"plot_data,omitempty"`
+	PlotData []Serie `json:"plot_data,omitempty"`
+	/*
+	[
+		[[1, 2], [3, 5.12], [5, 13.1], [7, 33.6], [9, 85.9], [11, 219.9]],
+		[[6, 2], [3, 5.12], [5, 13.1], [7, 33.6], [9, 85.9], [11, 219.9]]
+	]
+	 */
 }
 
 
@@ -129,6 +138,16 @@ func (tile *DataSimplePercentage) SetDescription(description string) {
 
 func (tile *DataLineChart) SetTitle(title string) {
 	tile.Subtitle = title
+}
+
+// Serie
+func MakeItemSerie(key string, value interface{}) ItemSerie {
+	var item []interface{}
+
+	item = append(item, key)
+	item = append(item, value)
+
+	return item
 }
 
 // get tile name

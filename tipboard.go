@@ -16,21 +16,21 @@ type Config struct {
 	APIKey     string
 }
 
-type client struct {
+type Client struct {
 	config Config
 	client http.Client
 }
 
 // NewClient return client for use API of tipboard
-func NewClient(config Config) *client {
-	return &client{
+func NewClient(config Config) *Client {
+	return &Client{
 		config: config,
 		client: http.Client{},
 	}
 }
 
 // Push send data to tipboard API
-func (tipboard *client) Push(tile string, key string, data interface{}) error {
+func (tipboard *Client) Push(tile string, key string, data interface{}) error {
 	values, err := json.Marshal(data)
 
 	if err != nil {
@@ -65,6 +65,6 @@ func (tipboard *client) Push(tile string, key string, data interface{}) error {
 	return nil
 }
 
-func (tipboard *client) getUrlPush() string {
+func (tipboard *Client) getUrlPush() string {
 	return fmt.Sprintf("%s/%s/%s/push", tipboard.config.BaseURL, tipboard.config.APIVersion, tipboard.config.APIKey)
 }
